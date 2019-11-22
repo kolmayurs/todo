@@ -46,7 +46,7 @@ class App extends React.Component {
         const list = this.props.todo.map((items, key) => {
             return (
                 <li key={'id_'+key}> <div className="round">
-    <input type="checkbox" id={'checkbox_'+key} onClick={this.checked.bind(this,items.id,items.completed)} defaultChecked={(!items.completed?false:true)} />
+    <input type="checkbox" id={'checkbox_'+key} onClick={this.checked.bind(this,items.id,items.completed)} defaultChecked={items.completed} />
     <label htmlFor={'checkbox_'+key}></label>
   </div>||{items.id} || {items.text} || {items.completed} || <span onClick={this.remove.bind(this,items.id)}>X</span></li>
             )
