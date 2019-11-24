@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { todoData, removeTodo, updateStatus} from '../action/action';
 
+
 const mapStateToProps = (state) => {
     return {
         todo: state.todo.todo
@@ -22,11 +23,17 @@ class App extends React.Component {
 
         this.state = {
             text: ''
+
         };
     }
+
     componentDidMount() {}
     add() {
-        if (this.props.todo && this.props.todo.length > 0) {
+        if(this.state.text === ''){
+            alert('Please Enter Task');
+        }
+        else{
+            if (this.props.todo && this.props.todo.length > 0) {
             this.props.todoData(parseInt(this.props.todo[this.props.todo.length - 1].id) + 1, this.state.text, false);
 
         } else {
@@ -34,6 +41,8 @@ class App extends React.Component {
         }
 
         this.setState({ text: '' });
+        }
+        
     }
 
     remove(id) {
@@ -44,21 +53,44 @@ class App extends React.Component {
     }
     render() {
         const list = this.props.todo.map((items, key) => {
-            return (
-                <li key={'id_'+key}> <div className="round">
-    <input type="checkbox" id={'checkbox_'+key} onClick={this.checked.bind(this,items.id,items.completed)} defaultChecked={items.completed} />
-    <label htmlFor={'checkbox_'+key}></label>
-  </div>||{items.id} || {items.text} || {items.completed} || <span onClick={this.remove.bind(this,items.id)}>X</span></li>
+            if(items.completed){
+                return (
+                <li key={'id_'+key} style={{opacity:'0.5'}}>
+                    <div className="round">
+                        <input type="checkbox" id={'checkbox_'+key} onClick={this.checked.bind(this,items.id,items.completed)} defaultChecked={items.completed} />
+                        <label htmlFor={'checkbox_'+key}></label>
+                    </div>
+                    <div className="todo-text" style={{ textDecoration: 'line-through'}}>{items.text}</div>
+                    <span className="close" onClick={this.remove.bind(this,items.id)}>X</span>
+                </li>
             )
+            }
+            else{
+                return (
+                <li key={'id_'+key} style={{opacity:'1'}}>
+                    <div className="round">
+                        <input type="checkbox" id={'checkbox_'+key} onClick={this.checked.bind(this,items.id,items.completed)} defaultChecked={items.completed} />
+                        <label htmlFor={'checkbox_'+key}></label>
+                    </div>
+                    <div className="todo-text"  style={{ textDecoration: 'none'}}>{items.text}</div>
+                    <span className="close" onClick={this.remove.bind(this,items.id)}>X</span>
+                </li>
+            )
+            }
+            
         })
         return (
             <div className="App">
-      <input type="text" value={this.state.text} onChange={e => {this.setState({text: e.target.value})}} />
-      <button onClick={this.add.bind(this)}>Submit</button>
-      <div>List:</div>
-      <ol>{list}</ol>
+                <div className="heading">Todo List</div>
+                <div className="add-todo">
+                    <input type="text" value={this.state.text} placeholder="Add Task Here" onChange={e=> {this.setState({text: e.target.value})}} />
+                    <button onClick={this.add.bind(this)}>Submit</button>
+                    
+                </div>
+                {this.props.todo.length>0 ? <ol>{list}</ol> : null}
 
-    </div>
+            </div>
+
         );
     }
 

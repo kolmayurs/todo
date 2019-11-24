@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Temp</title>
+    <style type="text/css">
+    @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+    body {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        background: linear-gradient(to right, #fce3ec, #ffe8cc);
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    img {
+        -khtml-user-select: none;
+        -o-user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    ::-moz-selection {
+        background-color: #FF3250;
+        color: #ffffff;
+    }
+
+    ::selection {
+        background-color: #FF3250;
+        color: #ffffff;
+    }
+
+    .main-container {
+        background-color: #ffffff;
+        max-width: 680px;
+        height: calc(100vh - 20px);
+        margin: 10px auto;
+        display: flex;
+        flex-wrap: wrap;
+        border-radius: 10px;
+        -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3);
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3);
+        overflow: scroll;
+    }
+
+    .heading {
+        width: 100%;
+        color: #FF3250;
+        font-size: 40px;
+        font-weight: bold;
+        padding: 15px 10px;
+        text-align: center;
+        letter-spacing: 2px;
+        border-bottom: 1px solid #ddd;
+        height: 50px;
+    }
+
+    .add-todo {
+        align-items: top;
+    }
+    </style>
+</head>
+
+<body>
+    <div className="App">
+        <div className="heading">Todo List</div>
+        <div className="add-todo">
+            <input type="text" value={this.state.text} onChange={e=> {this.setState({text: e.target.value})}} />
+            <button onClick={this.add.bind(this)}>Submit</button>
+            <div class="todo-list-heading">Todo List</div>
+            <ol>{list}</ol>
+        </div>
+        <button onClick={this.togglePopup.bind(this)}>show popup</button>
+        {this.state.showPopup ?
+        <Popup text='Close Me' closePopup={this.togglePopup.bind(this)} />
+        : null
+        }
+    </div>
+    <li key={'id_'+key}>
+        <div className="round">
+            <input type="checkbox" id={'checkbox_'+key} onClick={this.checked.bind(this,items.id,items.completed)} defaultChecked={items.completed} />
+            <label htmlFor={'checkbox_'+key}></label>
+        </div>
+        <div className="todo-text">{items.text}</div>
+        <span onClick={this.remove.bind(this,items.id)}>X</span>
+    </li>
+</body>
+
+</html>
